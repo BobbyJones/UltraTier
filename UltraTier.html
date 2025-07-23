@@ -1,0 +1,185 @@
+<!doctype html>
+<!--
+========================================================================
+	                       Ultra Tier List
+========================================================================
+
+Version: 1
+
+Author: Bobby Jones (https://github.com/bobbyjones)
+
+Attribution / Special Thanks:
+------------------------------
+1) SortableJS (https://github.com/SortableJS/Sortable)
+2) Icomoon App (https://icomoon.io/)
+
+------------------------------------------------------------------------
+License
+------------------------------------------------------------------------
+This software is released under the 3-Clause BSD License:
+
+Copyright: 2025 - Bobby Jones
+
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are 
+met:
+
+1. Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright 
+notice, this list of conditions and the following disclaimer in the 
+documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its 
+contributors may be used to endorse or promote products derived from 
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+“AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Ultra Tier Lists is an advanced offline tier maker, that allows you to place images into custom tiered rows and sort them based on your preference.">
+
+        <link rel="stylesheet" href="css/ultraTier.css"/>
+        <script src="js/Sortable.js"></script>
+        <script src="js/ultraTier.js" async></script>
+        <title>Ultra Tier Lists</title>
+    </head>
+    
+    <body id="body">
+        <div class="siteMain">
+            <nav class="navbuttons">
+                <button onClick="newTierList()" class="button icon-list redButton" title="New Tier List"><p>New Tier List</p></button>               
+                <button onclick="saveTierList()" class="button icon-floppy-disk orangeButton" title="Save Tier List"><p>Save Tier List</p></button>
+                <label for="loadTier" class="button icon-download yellowButton" title="Load Tier List"><p>Load Tier List</p></label>
+                <input type="file" id="loadTier" accept=".html" class="hideButton">
+                <label for="importImgButton" class="button icon-images greenButton" title="Import Images"><p>Import Images</p></label>
+                <input id="importImgButton" type="file" multiple class="hideButton">
+                <label for="settingsMenu" class="button icon-cog settingsButton blueButton" title="Settings"><p>Settings</p></label>
+                <input type="checkbox" id="settingsMenu" name="settings" class="hideButton">
+            </nav>
+            <nav class="tierSettings" id="tierSettings">
+                <form class="imageSizeSettings">
+                    <fieldset>
+                        <legend>Adjust Image Size</legend>
+                            <label for="imgSizeXS">
+                                <input type="radio" id="imgSizeXS" name="adjustImage" value="imgSizeXS" onClick="adjustImageSize()">
+                                X-Small
+                            </label>
+                            <label for="imgSizeSmall">
+                                <input type="radio" id="imgSizeSmall" name="adjustImage" value="imgSizeSmall" checked onClick="adjustImageSize()">
+                                Small
+                            </label>
+                            <label for="imgSizeMedium">
+                                <input type="radio" id="imgSizeMedium" name="adjustImage" value="imgSizeMedium" onClick="adjustImageSize()">
+                                Medium
+                            </label>
+                            <label for="imgSizeLarge">
+                                <input type="radio" id="imgSizeLarge" name="adjustImage" value="imgSizeLarge" onClick="adjustImageSize()">
+                                Large
+                            </label>
+                            <label for="imgSizeXL">
+                                <input type="radio" id="imgSizeXL" name="adjustImage" value="imgSizeXL" onClick="adjustImageSize()">
+                                X-Large
+                            </label>
+                    </fieldset>
+                </form>
+                <form class="toggleImageCount">
+                    <fieldset>
+                        <legend>Toggle Image Count</legend>
+                        <label for="countOn">
+                            <input checked type="checkbox" id="count-toggle" onClick="toggleCount()" >
+                            Toggle Image Counter On/Off
+                        </label>
+                    </fieldset>
+                </form>
+                <form class="toggleLabel">
+                    <fieldset>
+                        <legend>Toggle Image Label</legend>
+                        <label for="labelToggle">
+                            <input type="checkbox" id="labelToggle" onClick="toggleLabel()" >
+                            Toggle Image Label On/Off
+                        </label>
+                    </fieldset>
+                </form>
+                <form class="toggleLabelName">
+                    <fieldset>
+                        <legend>Toggle Use File Name as Image Label</legend>
+                        <label for="labelNameToggle">
+                            <input type="checkbox" id="labelNameToggle" onClick="toggleLabelName()" >
+                            Use File Name as Image Label on Image Import?
+                        </label>
+                    </fieldset>
+                </form>
+                <form class="imagePoolLocation">
+                    <fieldset>
+                        <legend>Image Pool Location</legend>
+                        <label for="poolTop">
+                            <input type="radio" id="poolTop" name="poolLocation" value="poolTop" checked onClick="imagePoolLocation()">
+                            Top
+                        </label>
+                        <label for="poolBottom">
+                            <input type="radio" id="poolBottom" name="poolLocation" value="poolBottom" onClick="imagePoolLocation()">
+                            Bottom
+                        </label>
+                        <label for="poolLeft">
+                            <input type="radio" id="poolLeft" name="poolLocation" value="poolLeft" onClick="imagePoolLocation()">
+                            Left
+                        </label>
+                        <label for="poolRight">
+                            <input type="radio" id="poolRight" name="poolLocation" value="poolRight" onClick="imagePoolLocation()">
+                            Right
+                        </label>
+                        <label for="poolHide">
+                            <input type="radio" id="poolHide" name="poolLocation" value="poolHide" onClick="imagePoolLocation()">
+                            Hide
+                        </label>
+                    </fieldset>
+                </form>
+                <form class="imageMargin">
+                    <fieldset>
+                        <legend>Image Spacing</legend>
+                        <p>Space images out so there are small gaps inbetween the images?</p>
+                        <label for="imageMarginYes">
+                            <input type="radio" id="imageMarginYes" name="imageSpacingName" value="imageMarginYes" checked onClick="imageSpacing()">
+                            Yes
+                        </label>
+                        <label for="imageMarginNo">
+                            <input type="radio" id="imageMarginNo" name="imageSpacingName" value="imageMarginNo" onClick="imageSpacing()">
+                            No
+                        </label>
+                    </fieldset>
+                </form>
+            </nav>
+            <div id="mainWrap" class="sortable-list">
+                <div class="tierTitle" id="tierTitle" onClick="changeTierTitle(this)">Enter Tier Title Here</div>
+                <ol class="imagePool dragContainer imagePoolTop" id="imagePool">
+                    
+                </ol>
+                <div id="main">
+                    
+                </div>
+            </div>
+        </div>
+        <footer>
+        	<div class ="logoWrap">
+                <a href="https://github.com/bobbyjones" target="new">
+                    <img src="img/ultra-tier-logo.png" alt="Ulta Tier Lists" class="logo">
+                </a>
+            </div>
+        </footer>
+    </body>
+</html>

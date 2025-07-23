@@ -1,0 +1,694 @@
+/*
+========================================================================
+                     Ultra Tier List
+========================================================================
+
+Version: 1
+
+Author: Bobby Jones (https://github.com/bobbyjones)
+
+Attribution / Special Thanks:
+------------------------------
+1) SortableJS (https://github.com/SortableJS/Sortable)
+2) Icomoon App (https://icomoon.io/)
+
+------------------------------------------------------------------------
+License
+------------------------------------------------------------------------
+This software is released under the 3-Clause BSD License:
+
+Copyright: 2025 - Bobby Jones
+
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are 
+met:
+
+1. Redistributions of source code must retain the above copyright notice, 
+this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright 
+notice, this list of conditions and the following disclaimer in the 
+documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its 
+contributors may be used to endorse or promote products derived from 
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+“AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+@charset "utf-8";
+/* CSS Document */
+
+button, label{
+	padding:0;
+	margin:0;
+	display:block;
+	border:0;
+}
+
+
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?51ir2v');
+  src:  url('../fonts/icomoon.eot?51ir2v#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?51ir2v') format('truetype'),
+    url('../fonts/icomoon.woff?51ir2v') format('woff'),
+    url('../fonts/icomoon.svg?51ir2v#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-images:before {
+  content: "\e90e";
+}
+.icon-download:before {
+  content: "\e960";
+}
+.icon-floppy-disk:before {
+  content: "\e962";
+}
+.icon-cog:before {
+  content: "\e994";
+}
+.icon-bin:before {
+  content: "\e9ac";
+}
+.icon-list:before {
+  content: "\e9ba";
+}
+.icon-eye-plus:before {
+  content: "\e9cf";
+}
+.icon-eye-minus:before {
+  content: "\e9d0";
+}
+.icon-contrast:before {
+  content: "\e9d5";
+}
+.icon-star-full:before {
+  content: "\e9d9";
+}
+.icon-plus:before {
+  content: "\ea0a";
+}
+.icon-minus:before {
+  content: "\ea0b";
+}
+.icon-circle-up:before {
+  content: "\ea41";
+}
+.icon-circle-down:before {
+  content: "\ea43";
+}
+.icon-move-up:before {
+  content: "\ea46";
+}
+.icon-move-down:before {
+  content: "\ea47";
+}
+
+
+
+body{
+	margin:0;
+	padding:0;
+	background:#3b3b3b;
+	color:#fff;
+	font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+footer{
+	font-size:14px;
+	padding:8px 0;
+	width:100%;
+	background:#222222;
+	box-sizing:border-box;
+	
+}
+
+.logoWrap{
+	display:flex;
+	width:120px;
+	align-items:center;
+	align-content:center;
+	justify-content:center;
+}
+
+.logo{
+	transition: all .15s ease-in-out;
+	display:block;
+}
+
+.logo:hover{
+	transform: scale(1.1,1.1);
+	transition: all .15s ease-in-out;
+}
+
+.siteMain{
+	flex-grow: 1;
+}
+
+
+ol, li{
+	margin:0;
+	padding:0;
+	border:0;
+}
+
+
+.red{background:#ff6666;}
+.orange{background:#f0a731;}
+.yellow{background:#f4d95b;}
+.green{background:#66ff66;}
+.blue{background:#58c8f4;}
+.purple{background:#5b76f4;}
+.pink{background:#f45bed;}
+
+/*
+.red{background:#ff595e;}
+.orange{background:#fb8127;}
+.yellow{background:#ffca3a;}
+.green{background:#8ac926;}
+.blue{background:#2e9bef;}
+.purple{background:#9855ef;}
+.pink{background:#d254d3;}
+*/
+
+.row{
+	display:flex;
+	border-top:1px solid #515151;
+	border-bottom:1px solid #515151;
+	background-color:#3b3b3b;
+	margin:0;
+	padding:0;
+}
+
+div:nth-last-child(1 of .row){
+	border-bottom:0;
+}
+
+.tierName{
+	width:120px;
+	min-width:120px;
+	display:flex;
+	flex-direction:column;
+	align-content:center;
+	justify-content:center;
+	color:#000;
+	text-align:center;
+	margin:0;
+	padding:4px;
+	overflow:auto;
+	transition: all .15s ease-in-out;
+}
+
+.tierName:hover{
+	cursor: pointer;
+	transform: scale(1.1,1.1);
+	transition: all .15s ease-in-out;
+	filter: drop-shadow(3px 3px 3px #000);
+	z-index:2;
+}
+
+.navbuttons{
+	display:flex;
+	align-items:stretch;
+	background:#222222;
+	position:sticky;
+	top:0;
+	z-index:4;
+	
+}
+
+.button{
+  cursor: pointer;
+  text-align:center;
+  background:#222222;
+  color:#e4e3e3;
+  width:120px;
+  height:60px;
+  font-size:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  flex-shrink: 0;
+  justify-content:center;
+  margin:0;
+  text-transform:uppercase;
+  z-index:100;
+  transition: all .15s ease-in-out;
+}
+
+.button p{
+	font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size:12px;
+	padding:0;
+	margin:8px 0 0 0;
+	font-weight:600;
+}
+
+.button:hover{
+	transform: scale(1.1,1.1);
+	transition: all .15s ease-in-out;
+	color:#fff;
+	filter: drop-shadow(3px 3px 3px #000);
+	z-index:101;
+	text-shadow:#5B5B5B 1px 1px 1px;
+}
+
+
+
+.redButton:hover{background:#ff595e;}
+.orangeButton:hover{background:#f38500;}
+.yellowButton:hover{background:#ffca3a;}
+.greenButton:hover{background:#8ac926;}
+.blueButton:hover{background:#2e9bef;}
+
+/*
+.redButton:hover{background:#ff6666;}
+.orangeButton:hover{background:#f0a731;}
+.yellowButton:hover{background:#f4d95b;}
+.greenButton:hover{background:#00bc5d;}
+.blueButton:hover{background:#00a7c3;}
+
+*/
+
+.settingsButton{
+	position:absolute;
+	right:0;
+	margin:0 6px 0 0;
+}
+
+.tierTitle{
+	display:flex;
+	align-items:center;
+  	justify-content:center;
+	text-align:center;
+	width:auto;
+	position:fixed;
+	top:0;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index:5;
+	height:60px;
+	cursor:pointer;
+	font-size:28px;
+	transition: all .15s ease-in-out;
+	padding:0;
+	border:0;
+}
+
+.tierTitle:hover{
+	font-size:35px;
+	transition: all .15s ease-in-out;
+}
+
+.hideButton{
+	display:none;
+}
+
+#main{
+	border-top:1px solid #515151;
+	/* border-bottom:1px solid #515151; */
+	margin:0;
+	padding:0;
+	width:100%;
+	position:relative;
+	height:fit-content;
+}
+
+#main:before{
+	content:" ";
+	display:block;
+	position:absolute;
+	width:100%;
+	height:8px;
+	filter: drop-shadow(0px 2px 2px #000);
+	background:#3b3b3b;
+	bottom:0px;
+	z-index:-1;
+}
+
+#mainWrap{
+	margin:0;
+	padding:0;
+	
+}
+
+.imageContainer{
+	width:100%;
+	max-width:100%;
+	list-style:none;
+	display:flex;
+	flex-direction: row;
+	flex-wrap:wrap;
+	margin:0;
+	align-items:center;
+}
+
+
+
+.rowButtons{
+	background-color:#222222;
+	display:flex;
+	flex-direction:column;
+	align-content:center;
+	justify-content:space-between;
+	
+}
+
+.addAboveButton, .deleteButton, .addBelowButton{
+	display:block;
+	margin:5px;
+	border:0;
+	background:none;
+	color:#e4e3e3;
+	cursor:pointer;
+	transition: all .15s ease-in-out;
+	font-size:22px;
+}
+
+.addAboveButton:hover, .deleteButton:hover, .addBelowButton:hover{
+	transform: scale(1.3,1.3);
+	transition: all .15s ease-in-out;
+	color:#fff;
+}
+
+.sortable-list img{
+	position:relative;
+	z-index:-1;
+}
+
+.sortable-list {
+	display:flex;
+	flex-direction:column;
+  	counter-reset: step-counter;
+}
+
+#main .draggable{
+	counter-increment: step-counter;
+}
+
+.draggable::before{
+	content: counter(step-counter);
+	display: block;
+	background-color:#000;
+	color: white;
+	font-weight: bold;
+	border-radius: 50%;
+	padding: 0;
+	font-size:22px;
+	width:46px;
+	height:46px;
+	position:absolute;
+	left:0;
+	top:0;
+	text-align:center;
+	line-height:46px;
+	vertical-align:middle;
+	z-index:5;
+}
+
+.draggable::after{	
+	content: "";
+	display: block;
+	background-color:#fff;
+	color: white;
+	font-weight: bold;
+	border-radius: 50%;
+	padding: 8px;
+	width:38px;
+	height:38px;
+	text-align:center;
+	line-height:54px;
+	vertical-align:middle;
+	position:absolute;
+	left:-4px;
+	top:-4px;
+	z-index:4;
+}
+
+.hide-pseudo::before, .hide-pseudo::after {
+    display: none;
+}
+
+.draggable {
+    display: block;
+    position: relative;
+	z-index:1;
+	align-items:center;
+	flex-grow:0;
+	cursor: grab;
+}
+
+.draggable:hover{
+	z-index:3;
+}
+
+
+.dragging, .dragging:active, .draggable:active{
+	cursor:grabbing;
+}
+
+.imageHover:hover {
+	transform: scale(1.1,1.1);
+	transition: all .15s ease-in-out;
+	z-index:2;
+	filter: drop-shadow(3px 3px 3px #000);
+}
+  
+.image_thumbnail, .imageHover {
+	display:block;
+	vertical-align:middle;
+	transition: all .15s ease-in-out;
+}
+  
+.imageDeleteButton{
+	display:none;
+	position:absolute;
+	font-size:30px;
+	color:#fff;
+	background:none;
+	top:0;
+	right:0;
+	cursor:pointer;
+	text-shadow: 3px 3px 2px #000;
+	transition: all .15s ease-in-out;
+	z-index:3;
+}
+
+.imageDeleteButton:hover{
+	transform: scale(1.3,1.3);
+	transition: all .15s ease-in-out;
+	z-index:3;
+}
+
+.draggable:hover > .imageDeleteButton{
+	display:block;
+}
+  
+.imageSizeRadio{
+	display:flex;
+	flex-direction:column;
+}
+
+.tierSettings{
+	display:none;
+	flex-direction:row;
+	align-content:center;
+	justify-content:center;
+	align-items:stretch;
+	position:sticky;
+	top:60px;
+	z-index:5;
+	background:#494949;
+	padding-top:10px;
+}
+
+.tierSettings form{
+	width:16.6%;
+	margin-bottom:30px;
+}
+
+.tierSettings form > fieldset{
+	background:#494949;
+	height:100%;
+}
+
+.imageMargin p{
+	margin:0 0 12px 0;
+}
+
+
+.mainWrapTop{flex-direction:column;}
+
+.mainWrapBottom{flex-direction:column-reverse;}
+
+.mainWrapLeft{flex-direction:row;}
+
+.mainWrapRight{flex-direction:row-reverse;}
+
+
+.imagePool{
+	display:flex;
+	align-items:flex-start;
+	flex-wrap:wrap;
+	background-color:#3b3b3b;
+	margin:0;
+	z-index:0;
+	justify-content:center;
+	box-sizing:border-box;
+}
+
+.imagePool li::before, .imagePool li::after{
+	display:none;
+}
+
+.imagePoolTop{
+	width:auto;
+	overflow-y:auto;
+	position:relative;
+	top:inherit;
+	filter: drop-shadow(0px 2px 2px #000);
+	margin-bottom:8px;
+}
+
+.imagePoolBottom{
+	width:auto;
+	overflow-y:auto;
+	top:inherit;
+	border-top:2px solid #515151;
+	margin-top:8px;
+}
+
+.imagePoolRight{
+	position:sticky;
+	top:60px;
+	width:400px;
+	height:calc(100vh - 60px);
+	overflow:auto;
+	flex-shrink:0;
+	align-content:flex-start;
+	border-left:1px solid #515151;
+	
+}
+
+.imagePoolLeft{
+	position:sticky;
+	top:60px;
+	width:400px;
+	height:calc(100vh - 60px);
+	overflow:auto;
+	flex-shrink:0;
+	align-content:flex-start;
+	border-right:1px solid #515151;
+	
+}
+
+.imagePoolHide{
+	display:none;
+}
+
+/*
+.imagePool .imgMarginYes{
+	margin-top:10px;
+	margin-bottom:10px;	
+}
+*/
+
+
+
+.imageLabel{
+	box-sizing:border-box;
+	font-size:14px;
+	background:#000;
+	height:60px;
+	text-align:center;
+	align-content: center;
+	padding:5px;
+	overflow:hidden;
+	color:#D4D4D4;
+	cursor:pointer;
+	transition: all .15s ease-in-out;
+}
+
+.imageLabel:hover{
+	color:#fff;
+	background:#2e9bef;
+	transition: all .15s ease-in-out;
+	text-shadow:#313030 1px 1px;
+}
+
+.imageLabelHide{display:none;}
+
+.imgSizeXS{height:100px; width:auto;}
+.imgSizeSmall{height:150px; width:auto;}
+.imgSizeMedium{height:200px; width:auto;}
+.imgSizeLarge{height:270px; width:auto;}
+.imgSizeXL{height:330px; width:auto;}
+
+.imgConXS{min-height:100px;}
+.imgConSmall{min-height:150px;}
+.imgConMedium{min-height:200px;}
+.imgConLarge{min-height:270px;}
+.imgConXL{min-height:330px;}
+
+.imgConXS-label{min-height:160px;}
+.imgConSmall-label{min-height:210px;}
+.imgConMedium-label{min-height:260px;}
+.imgConLarge-label{min-height:330px;}
+.imgConXL-label{min-height:390px;}
+
+.poolXS{height:140px;}
+.poolSmall{height:190px;}
+.poolMedium{height:240px;}
+.poolLarge{height:310px;}
+.poolXL{height:370px;}
+
+.poolXS-label{height:200px;}
+.poolSmall-label{height:250px;}
+.poolMedium-label{height:300px;}
+.poolLarge-label{height:370px;}
+.poolXL-label{height:430px;}
+
+.imageContainer > .imgMarginYes{margin:0}
+.imageContainer > .imgMarginNo{margin:0px;}
+
+.rowPaddingYes{gap:20px 20px; padding:20px}
+.rowPaddingNo{gap:0px 0px; padding:0;}
+.rowPaddingNoPool{gap:0px 0px; padding:20px;}
+
+.tierFontSmall{font-size:12px;}
+.tierFontMedium{font-size:15px;}
+.tierFontLarge{font-size:20px;}
+.tierFontXL{font-size:30px;}
