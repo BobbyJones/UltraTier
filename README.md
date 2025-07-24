@@ -4,6 +4,7 @@ Welcome, Ultra Tier Lists is a downloadable offline browser based tier list app.
 <h2>Ultra Tier List Features</h2>
 <ul>
   <li>Import your own images.</li>
+  <li>Save and load your tiered list for viewing later.</li>
   <li>Add custom labels to your images.</li>
   <li>Assign file names as you image label, allowing you to automatically label all your images as soon as they are loaded.</li>
   <li>Resize your images.</li>
