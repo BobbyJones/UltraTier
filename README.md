@@ -10,7 +10,7 @@ Welcome, Ultra Tier Lists is a downloadable offline browser based tier list app.
   <li>Resize your images.</li>
   <li>Add numbered ranks to each image.</li>
   <li>Customize interface by changing the untiered image pool location on screen.</li>
-  <li>Add and delete rows with a clcik of a button.</li>
+  <li>Add and delete rows with a click of a button.</li>
   <li>Set custom tier names.</li>
   <li>Adjust image spacing on or off.</li>
 </ul>
