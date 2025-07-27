@@ -3,6 +3,9 @@
 <h1>Ultra Tier Lists</h1>
 Welcome, Ultra Tier Lists is a downloadable offline browser based tier list app.  Ultra Tier Lists allows you to load in any images you want that are storred on your computer and sort them into tiered rows. Ultra Tier Lists has some incredible features including image resizing, image numbering, image labeling, and more, check out the full feature list below!
 
+<img width="840" height="440" alt="UltraTierMedS" src="https://github.com/user-attachments/assets/df6f9613-f574-4699-aca1-046a2ffd68f7" />
+
+
 <h2>Ultra Tier List Features</h2>
 <ul>
   <li>Import your own images.</li>
