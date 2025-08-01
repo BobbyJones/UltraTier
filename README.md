@@ -2,7 +2,7 @@
 <img width="400" height="131" alt="UltraTierLogoLargeBlk" src="https://github.com/user-attachments/assets/36a09cde-553c-4bd5-9254-a2bfe9067a67" />
 <h1>Ultra Tier Lists</h1>
 <p>
-Welcome, Ultra Tier Lists is a downloadable offline browser based tier list app.  Ultra Tier Lists allows you to load in any images you want that are storred on your computer and sort them into tiered rows. Ultra Tier Lists has some incredible features including image resizing, image numbering, image labeling, and more, check out the full feature list below!
+Welcome, Ultra Tier Lists is a downloadable offline browser based tier list app.  Ultra Tier Lists allows you to load in any images you want that are stored on your computer and sort them into tiered rows. Ultra Tier Lists has some incredible features including image resizing, image numbering, image labeling, and more, check out the full feature list below!
 </p>
 
 ![UltraTierFull](https://github.com/user-attachments/assets/cf1499aa-8a6d-49a2-afd4-7f47a0e5fa72)
