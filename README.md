@@ -28,7 +28,7 @@ Welcome, Ultra Tier Lists is a downloadable offline browser based tier list app.
 <ul>
   <li>Ability to change the color of each tier manually.</li>
   <li>Screenshot feature that allows you to share your tiers with others.</li>
-  <li>Settings selected will now be saved along with your tier. </li>
+  <li>Settings selected will now be saved along with your tier list. </li>
 </ul>
 
 ![UltraTierLists-v1-1-Settings-Sm](https://github.com/user-attachments/assets/78c4d049-7ef0-4137-9cca-a7b3d4a3c421)
