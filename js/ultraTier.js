@@ -2,7 +2,7 @@
 ========================================================================
 		                     Ultra Tier List
 ========================================================================
-Version: 1
+Version: 1.1
 
 Author: Bobby Jones (https://github.com/bobbyjones)
 
@@ -55,30 +55,45 @@ let imageSize = 'imgSizeSmall';
 let imgConSize = 'imgConSmall';
 let poolSize = 'poolSmall';
 let poolLocation = 'top';
-let countChecked;
+let countChecked = true;
 let labelChecked = false;
 let labelNameChecked = false;
 let unsaved = false;
 let imageMargin = 'imgMarginYes';
 let containPadding = 'rowPaddingYes';
 let dndGroupName = 'dndGroup';
+let tierNameContainer;
 
 /* =================================== Create Row ======================= */
 
 function createRow(argTierName, tierBgColor, tierFontSize) {
   const rowContainer = document.createElement('div');
   const tierName = document.createElement('div');
+  const tierNameWrap = document.createElement('span');
+  const changeBgButton = document.createElement('button');
   const imageContainer = document.createElement('ol');
   const rowButtons = document.createElement('div');
   const addAboveButton = document.createElement('button');
   const addDeleteButton = document.createElement('button');
   const addBelowButton = document.createElement('button');
   
+  tierNameWrap.textContent = argTierName;
+  tierNameWrap.classList.add('tierNameWrap');
+  
   tierName.classList.add('tierName');
   tierName.setAttribute('onclick','changeTierName(this), fontSizing(this)');
-  tierName.textContent = argTierName;
   tierName.classList.add(tierBgColor);
   tierName.classList.add(tierFontSize);
+  tierName.appendChild(tierNameWrap);
+  
+  changeBgButton.setAttribute('onclick','tierBgDialog.showModal(), event.stopPropagation(), tierNameBgSelect(this)');
+  
+  
+  changeBgButton.classList.add('tierBgButton');
+  changeBgButton.classList.add('icon-colours');
+  changeBgButton.setAttribute('title', "Change Tier Color");
+  
+  tierName.appendChild(changeBgButton);
   
   imageContainer.classList.add('imageContainer');
   imageContainer.classList.add('dragContainer');
@@ -179,9 +194,10 @@ function deleteRow(button) {
 /* =========================== Change Tier Name ========================= */
 	
 	function changeTierName(tierDiv) {
+	  const tierNameWrap = tierDiv.firstElementChild;
       const newTierName = prompt('Enter New Tier Name:');
       if (newTierName !== null) {
-        tierDiv.textContent = newTierName;
+        tierNameWrap.textContent = newTierName;
 		unsaved = true;
       }
   }
@@ -243,9 +259,12 @@ window.onload = initializeRows();
 
 function createTierColors(){
 	const tierNameList = document.getElementsByClassName("tierName");
+	const userBgSet = 'userBgSet';
   	for (let i = 0; i < tierNameList.length; i++) {
-		tierNameList[i].classList.remove('red','orange','yellow','green','blue','purple','pink', 'null');
-		tierNameList[i].classList.add(tierNameBg[i % tierNameBg.length]);
+		if (!tierNameList[i].classList.contains(userBgSet)) {
+			tierNameList[i].classList.remove('red','orange','yellow','green','blue','purple','pink', 'null');
+			tierNameList[i].classList.add(tierNameBg[i % tierNameBg.length]);
+		}
   	}
 }
 
@@ -295,7 +314,6 @@ document.getElementById('loadTier').addEventListener('change', function(event) {
 		const reader = new FileReader();
 		reader.onload = function(e) {
 			document.getElementById('mainWrap').innerHTML = e.target.result;
-			adjustImageSize();
 				
 			let dragContainer = document.querySelectorAll(".dragContainer");	
 			if (dragContainer.length > 0) {
@@ -308,13 +326,103 @@ document.getElementById('loadTier').addEventListener('change', function(event) {
 			}
 		};
 		reader.readAsText(file);
+		file.value = null;
+		reader.value = null;
+		setTimeout(loadSettings, 800);
 	}
 	
+	
 	unsaved = false;
-	file.value = null;
+	
 	
 	
 });
+
+function loadSettings(){
+	const main = document.getElementById('main'); 
+		
+	// ---------- Image Count --------------
+	
+	if(main.classList.contains('loadCountOn')){
+		document.getElementById("count-toggle").checked = true;
+	}else if(main.classList.contains('loadCountOff')){
+		document.getElementById("count-toggle").checked = false;
+	}
+	
+	// ---------- Image Label -------------
+	
+	if(main.classList.contains('loadLabelOn')){
+		document.getElementById("labelToggle").checked = true;
+		toggleLabel();
+	}else if(main.classList.contains('loadLabelOff')){
+		document.getElementById("labelToggle").checked = false;
+		toggleLabel();
+	}
+	
+	// ----------- File Name ---------------
+	
+	if(main.classList.contains('loadFileNameOn')){
+		document.getElementById("labelNameToggle").checked = true;
+		toggleLabelName();
+	}else if(main.classList.contains('loadFileNameOff')){
+		document.getElementById("labelNameToggle").checked = false;
+		toggleLabelName();
+	}
+	
+	// ---------- Pool Location ----------
+	
+	if(main.classList.contains('loadPoolTop')){
+		document.getElementById('poolTop').checked = true;
+		imagePoolLocation();
+	}else if(main.classList.contains('loadPoolBottom')){
+		document.getElementById('poolBottom').checked = true;
+		imagePoolLocation();
+	}else if(main.classList.contains('loadPoolLeft')){
+		document.getElementById('poolLeft').checked = true;
+		imagePoolLocation();
+	}else if(main.classList.contains('loadPoolRight')){
+		document.getElementById('poolRight').checked = true;
+		imagePoolLocation();
+	}else if(main.classList.contains('loadPoolHide')){
+		document.getElementById('poolHide').checked = true;
+		imagePoolLocation();
+	}
+	
+	// --------- Margins --------------
+	
+	if(main.classList.contains('loadImgMarginYes')){
+		document.getElementById('imageMarginYes').checked = true;
+	}else if(main.classList.contains('loadImgMarginNo')){
+		document.getElementById('imageMarginNo').checked = true;
+	}
+	
+		// -------------- Image Size ----------
+	
+	if(main.classList.contains('loadImgSmall')){
+		
+		document.getElementById('imgSizeSmall').checked = true;
+		adjustImageSize();
+	}else if(main.classList.contains('loadImgXS')){
+		
+		document.getElementById('imgSizeXS').checked = true;
+		adjustImageSize();
+	}else if(main.classList.contains('loadImgMed')){
+		
+		document.getElementById('imgSizeMedium').checked = true;
+		adjustImageSize();
+	}else if(main.classList.contains('loadImgLrg')){
+		
+		document.getElementById('imgSizeLarge').checked = true;
+		adjustImageSize();
+	}else if(main.classList.contains('loadImgXL')){
+		
+		document.getElementById('imgSizeXL').checked = true;
+		adjustImageSize();
+	}
+	
+	
+		
+}
 
 /* ============================ Import Images =========================== */
 
@@ -333,6 +441,8 @@ function importImages() {
 		  let imageDeleteButton = document.createElement('button');
           let image = new Image();
 		  let imageLabel = document.createElement('div');
+		  let imageLabelVisible = document.createElement('div');
+		  let imageLabelHidden = document.createElement('div');
 		  let filename = file.name;
 		  let fileLabel = filename.replace(/\.[^/.]+$/, '');
 
@@ -349,11 +459,17 @@ function importImages() {
 		  imageLabel.classList.add('imageLabel');
 		  imageLabel.setAttribute('onclick','changeImageLabel(this)');
 		  
+		  imageLabelVisible.classList.add('visibleLabel');
+		  imageLabelHidden.classList.add('hiddenLabel');
+		  imageLabelHidden.textContent = 'Click here to add or change label';
+		  
 		  if (labelNameChecked == true){
-			  imageLabel.textContent = fileLabel;
+			  imageLabelVisible.textContent = fileLabel;
 		  }else{
-			  imageLabel.textContent = 'Click here to add label';
+			  imageLabelVisible.textContent = 'Click here to add or change label';
 		  }
+		  
+		  toggleCount();
 		  
 		  if (countChecked == true) {
 			imgWrap.classList.remove('hide-pseudo');
@@ -372,6 +488,8 @@ function importImages() {
           image.src = reader.result;
 		  image.alt = file.name;
 		  
+		  imageLabel.appendChild(imageLabelHidden);
+		  imageLabel.appendChild(imageLabelVisible);
 		  imageHover.appendChild(image);
 		  imageHover.appendChild(imageLabel);
 		  imgWrap.appendChild(imageHover);
@@ -380,7 +498,7 @@ function importImages() {
 		  
 		  
 		  
-		  toggleCount();
+		  
 		  setTimeout(labelWidthSet, 300, image, imageLabel);
 		  
 		  picker.value = null;
@@ -438,6 +556,7 @@ function imageSpacing(){
 	const images = document.querySelectorAll('.draggable');
 	const container = document.querySelectorAll('.imageContainer');
 	const imagePool = document.getElementById('imagePool');
+	const main = document.getElementById('main');
 	let poolPadding  = 'rowPaddingYes';
 	
 	if (imageSpacingRadio) 
@@ -447,12 +566,16 @@ function imageSpacing(){
 				imageMargin = 'imgMarginYes';
 				containPadding = 'rowPaddingYes';
 				poolPadding  = 'rowPaddingYes';
+				main.classList.remove('loadImgMarginYes', 'loadImgMarginNo');
+				main.classList.add('loadImgMarginYes');
 				
 			} else if (imageSpacingRadio.value === 'imageMarginNo') 
 			{
 				imageMargin = 'imgMarginNo';
 				containPadding = 'rowPaddingNo';
 				poolPadding  = 'rowPaddingNoPool';
+				main.classList.remove('loadImgMarginYes', 'loadImgMarginNo');
+				main.classList.add('loadImgMarginNo');
 			}
 	}
 	
@@ -523,10 +646,13 @@ window.onload = adjustImageSize();
 
 function adjustImageSize() {
   const adjustImageSizeRadio = document.querySelector('input[name="adjustImage"]:checked');
+  const main = document.getElementById('main');
   
   if (adjustImageSizeRadio) {
     if (adjustImageSizeRadio.value === 'imgSizeSmall') {
 		imageSize = 'imgSizeSmall';
+		main.classList.remove('loadImgSmall', 'loadImgXS', 'loadImgMed', 'loadImgLrg', 'loadImgXL');
+		main.classList.add('loadImgSmall');
 		if (labelChecked == true){
 			imgConSize = 'imgConSmall-label';
 			poolSize = 'poolSmall-label';
@@ -536,6 +662,8 @@ function adjustImageSize() {
 		}
     } else if (adjustImageSizeRadio.value === 'imgSizeXS') {
 		imageSize = 'imgSizeXS';
+		main.classList.remove('loadImgSmall', 'loadImgXS', 'loadImgMed', 'loadImgLrg', 'loadImgXL');
+		main.classList.add('loadImgXS');
 		if (labelChecked == true){
 			imgConSize = 'imgConXS-label';
 			poolSize = 'poolXS-label';
@@ -545,6 +673,8 @@ function adjustImageSize() {
 		}
     }else if (adjustImageSizeRadio.value === 'imgSizeMedium') {
 		imageSize = 'imgSizeMedium';
+		main.classList.remove('loadImgSmall', 'loadImgXS', 'loadImgMed', 'loadImgLrg', 'loadImgXL');
+		main.classList.add('loadImgMed');
 		if (labelChecked == true){
 			imgConSize = 'imgConMedium-label';
 			poolSize = 'poolMedium-label';
@@ -554,6 +684,8 @@ function adjustImageSize() {
 		}
     } else if (adjustImageSizeRadio.value === 'imgSizeLarge') {
 		imageSize = 'imgSizeLarge';
+		main.classList.remove('loadImgSmall', 'loadImgXS', 'loadImgMed', 'loadImgLrg', 'loadImgXL');
+		main.classList.add('loadImgLrg');
 		if (labelChecked == true){
 			imgConSize = 'imgConLarge-label';
 			poolSize = 'poolLarge-label';
@@ -563,6 +695,8 @@ function adjustImageSize() {
 		}
     } else if (adjustImageSizeRadio.value === 'imgSizeXL') {
 		imageSize = 'imgSizeXL';
+		main.classList.remove('loadImgSmall', 'loadImgXS', 'loadImgMed', 'loadImgLrg', 'loadImgXL');
+		main.classList.add('loadImgXL');
 		if (labelChecked == true){
 			imgConSize = 'imgConXL-label';
 			poolSize = 'poolXL-label';
@@ -612,15 +746,23 @@ function adjustImageSize() {
 
 /* ================================= Toggle Image Count ============================= */
 
-const checkbox = document.getElementById('count-toggle');
+
+	
+function toggleCount(){
+	
+	const checkbox = document.getElementById('count-toggle');
+	const main = document.getElementById('main');
 
 	if (checkbox.checked) {
 	  countChecked = true;
+	  main.classList.remove('loadCountOn', 'loadCountOff');
+	  main.classList.add('loadCountOn');
 	} else {
 	  countChecked = false;
+	  main.classList.remove('loadCountOn', 'loadCountOff');
+	  main.classList.add('loadCountOff');
 	}
 	
-function toggleCount(){
 	const elements = document.querySelectorAll('.draggable');
 	
 	checkbox.addEventListener('change', function() {
@@ -636,6 +778,8 @@ function toggleCount(){
 	});
 }
 
+window.onload = toggleCount();
+
 /* ================================= Toggle Image Label ============================= */
 
 
@@ -644,11 +788,16 @@ function toggleLabel(){
 	
 	
 	const labelCheckbox = document.getElementById('labelToggle');
+	const main = document.getElementById('main');
 
 	if (labelCheckbox.checked) {
 	  labelChecked = true;
+	  main.classList.remove('loadLabelOn', 'loadLabelOff');
+	  main.classList.add('loadLabelOn');
 	} else {
 	  labelChecked = false;
+	  main.classList.remove('loadLabelOn', 'loadLabelOff');
+	  main.classList.add('loadLabelOff');
 	}
 	
 	const element = document.querySelectorAll('.imageLabel');
@@ -803,12 +952,17 @@ function toggleLabel(){
 
 function toggleLabelName(){
 	
-const labelNameCheckbox = document.getElementById('labelNameToggle');
+	const labelNameCheckbox = document.getElementById('labelNameToggle');
+	const main = document.getElementById('main');
 
 	if (labelNameCheckbox.checked) {
 	  labelNameChecked = true;
+	  main.classList.remove('loadFileNameOn', 'loadFileNameOff');
+	  main.classList.add('loadFileNameOn');
 	} else {
 	  labelNameChecked = false;
+	  main.classList.remove('loadFileNameOn', 'loadFileNameOff');
+	  main.classList.add('loadFileNameOff');
 	}
 }
 
@@ -822,6 +976,7 @@ function imagePoolLocation(){
 	const imagePoolRadio = document.querySelector('input[name="poolLocation"]:checked');
 	const mainWrap = document.getElementById('mainWrap');
 	let imagePool = document.getElementById('imagePool');
+	const main = document.getElementById('main');
 	
   if (imagePoolRadio) {
     if (imagePoolRadio.value === 'poolTop') {
@@ -833,6 +988,9 @@ function imagePoolLocation(){
 		mainWrap.classList.remove('mainWrapBottom', 'mainWrapLeft', 'mainWrapRight', 'mainWrapTop');
 		mainWrap.classList.add('mainWrapTop');
 		
+		main.classList.remove('loadPoolTop', 'loadPoolBottom', 'loadPoolLeft', 'loadPoolRight', 'loadPoolHide');
+	  	main.classList.add('loadPoolTop');
+		
     } else if (imagePoolRadio.value === 'poolBottom') {
 		poolLocation = 'bottom';
 		
@@ -841,6 +999,9 @@ function imagePoolLocation(){
 		
 		mainWrap.classList.remove('mainWrapBottom', 'mainWrapLeft', 'mainWrapRight', 'mainWrapTop');
 		mainWrap.classList.add('mainWrapBottom');
+		
+		main.classList.remove('loadPoolTop', 'loadPoolBottom', 'loadPoolLeft', 'loadPoolRight', 'loadPoolHide');
+	  	main.classList.add('loadPoolBottom');
 		
     } else if (imagePoolRadio.value === 'poolLeft') {	
 		poolLocation='left'
@@ -851,6 +1012,9 @@ function imagePoolLocation(){
 		mainWrap.classList.remove('mainWrapBottom', 'mainWrapLeft', 'mainWrapRight', 'mainWrapTop');
 		mainWrap.classList.add('mainWrapLeft');
 		
+		main.classList.remove('loadPoolTop', 'loadPoolBottom', 'loadPoolLeft', 'loadPoolRight', 'loadPoolHide');
+	  	main.classList.add('loadPoolLeft');
+		
     } else if (imagePoolRadio.value === 'poolRight') {
 		poolLocation = 'right';
 		
@@ -860,6 +1024,9 @@ function imagePoolLocation(){
 		mainWrap.classList.remove('mainWrapBottom', 'mainWrapLeft', 'mainWrapRight', 'mainWrapTop');
 		mainWrap.classList.add('mainWrapRight');
 		
+		main.classList.remove('loadPoolTop', 'loadPoolBottom', 'loadPoolLeft', 'loadPoolRight', 'loadPoolHide');
+	  	main.classList.add('loadPoolRight');
+		
     }else if (imagePoolRadio.value === 'poolHide') {
 		poolLocation = 'hide';
 		
@@ -868,6 +1035,9 @@ function imagePoolLocation(){
 		
 		mainWrap.classList.remove('mainWrapBottom', 'mainWrapLeft', 'mainWrapRight', 'mainWrapTop');
 		mainWrap.classList.add('mainWrapTop');
+		
+		main.classList.remove('loadPoolTop', 'loadPoolBottom', 'loadPoolLeft', 'loadPoolRight', 'loadPoolHide');
+	  	main.classList.add('loadPoolHide');
 		
     }
     else {
@@ -888,9 +1058,11 @@ function imagePoolLocation(){
 /* ========================== Image Label changes ======================= */
 
 	function changeImageLabel(imageLabel) {
+	  const visibleLabel = imageLabel.querySelector('.visibleLabel'); 
       const newImageLabel = prompt('Enter Image Label:');
+	  
       if (newImageLabel !== null) {
-        imageLabel.textContent = newImageLabel;
+        visibleLabel.textContent = newImageLabel;
 		unsaved = true;
       }
   }
@@ -909,4 +1081,103 @@ function imagePoolLocation(){
 		  let labelWidth = images[idx].offsetWidth;
 		  imageLabel.style.width = labelWidth + 'px';
 	  });
+   }
+   
+   /* =========================== Tier Name BG Color Select ================ */
+   
+   function tierNameBgSelect(tierBgButton){
+	   tierNameContainer = tierBgButton.parentNode;	   
+	   tierNameBgReset();
+   }
+   
+   function tierBg(){
+	   
+	   const tierBGRadio = document.querySelector('input[name="tierBG"]:checked');
+	   
+	   if (tierBGRadio) {
+          if (tierBGRadio.value === 'red') {
+			  tierNameContainer.classList.remove('red','orange','yellow','green','blue','purple','pink');
+			  tierNameContainer.classList.add('red', 'userBgSet');
+		  }else if (tierBGRadio.value === 'orange') {
+			  tierNameContainer.classList.remove('red','orange','yellow','green','blue','purple','pink');
+			  tierNameContainer.classList.add('orange', 'userBgSet');
+		  }else if (tierBGRadio.value === 'yellow') {
+			  tierNameContainer.classList.remove('red','orange','yellow','green','blue','purple','pink');
+			  tierNameContainer.classList.add('yellow', 'userBgSet');
+		  }else if (tierBGRadio.value === 'green') {
+			  tierNameContainer.classList.remove('red','orange','yellow','green','blue','purple','pink');
+			  tierNameContainer.classList.add('green', 'userBgSet');
+		  }else if (tierBGRadio.value === 'blue') {
+			  tierNameContainer.classList.remove('red','orange','yellow','green','blue','purple','pink');
+			  tierNameContainer.classList.add('blue', 'userBgSet');
+		  }else if (tierBGRadio.value === 'purple') {
+			  tierNameContainer.classList.remove('red','orange','yellow','green','blue','purple','pink');
+			  tierNameContainer.classList.add('purple', 'userBgSet');
+		  }else if (tierBGRadio.value === 'pink') {
+			  tierNameContainer.classList.remove('red','orange','yellow','green','blue','purple','pink');
+			  tierNameContainer.classList.add('pink', 'userBgSet');
+		  }
+	   }
+   }
+   
+      function tierNameBgReset(){
+	   
+	   const red = 'red';
+	   const orange = 'orange';
+	   const yellow = 'yellow';
+	   const green = 'green';
+	   const blue = 'blue';
+	   const purple = 'purple';
+	   const pink = 'pink';
+	   
+	   if (tierNameContainer.classList.contains(red)){
+		   const redButton = document.getElementById('red');
+		   redButton.checked = true;
+	   }else if (tierNameContainer.classList.contains(orange)){
+		   const orangeButton = document.getElementById('orange');
+		   orangeButton.checked = true;
+	   }else if (tierNameContainer.classList.contains(yellow)){
+		   const yellowButton = document.getElementById('yellow');
+		   yellowButton.checked = true;
+	   }else if (tierNameContainer.classList.contains(green)){
+		   const greenButton = document.getElementById('green');
+		   greenButton.checked = true;
+	   }else if (tierNameContainer.classList.contains(blue)){
+		   const blueButton = document.getElementById('blue');
+		   blueButton.checked = true;
+	   }else if (tierNameContainer.classList.contains(purple)){
+		   const purpleButton = document.getElementById('purple');
+		   purpleButton.checked = true;
+	   }else if (tierNameContainer.classList.contains(pink)){
+		   const pinkButton = document.getElementById('pink');
+		   pinkButton.checked = true;
+	   }
+   }
+   
+   function resetBg(){
+	   tierNameContainer.classList.remove('userBgSet');
+	   createTierColors();
+	   setTimeout(tierNameBgReset, 100);
+   }
+   
+   /* ========================= Screenshot ========================== */
+   
+   function screenshot(){
+	   
+	   const capture = document.getElementById('main');
+	   
+	   if (capture) {
+            html2canvas(capture).then(canvas => {
+                // Append the canvas to the body (optional, for display)
+                //document.body.appendChild(canvas);
+
+                // To download the image:
+                const link = document.createElement('a');
+                link.download = 'UltraTierList.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        } else {
+            console.error("Element to capture not found.");
+        }
    }

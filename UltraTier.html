@@ -4,7 +4,7 @@
 	                       Ultra Tier List
 ========================================================================
 
-Version: 1
+Version: 1.1
 
 Author: Bobby Jones (https://github.com/bobbyjones)
 
@@ -56,6 +56,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <link rel="stylesheet" href="css/ultraTier.css"/>
         <script src="js/Sortable.js"></script>
         <script src="js/ultraTier.js" async></script>
+        <script src="js/html2canvas.js" async></script>
         <title>Ultra Tier Lists</title>
     </head>
     
@@ -63,12 +64,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <div class="siteMain">
             <nav class="navbuttons">
                 <button onClick="newTierList()" class="button icon-list redButton" title="New Tier List"><p>New Tier List</p></button>               
-                <button onclick="saveTierList()" class="button icon-floppy-disk orangeButton" title="Save Tier List"><p>Save Tier List</p></button>
+                <button onClick="saveTierList()" class="button icon-floppy-disk orangeButton" title="Save Tier List"><p>Save Tier List</p></button>
                 <label for="loadTier" class="button icon-download yellowButton" title="Load Tier List"><p>Load Tier List</p></label>
                 <input type="file" id="loadTier" accept=".html" class="hideButton">
                 <label for="importImgButton" class="button icon-images greenButton" title="Import Images"><p>Import Images</p></label>
                 <input id="importImgButton" type="file" multiple class="hideButton">
-                <label for="settingsMenu" class="button icon-cog settingsButton blueButton" title="Settings"><p>Settings</p></label>
+                <button onClick="screenshot()" class="button icon-camera blueButton" title="Screenshot"><p>Screenshot</p></button>
+                <label for="settingsMenu" class="button icon-cog settingsButton purpleButton" title="Settings"><p>Settings</p></label>
                 <input type="checkbox" id="settingsMenu" name="settings" class="hideButton">
             </nav>
             <nav class="tierSettings" id="tierSettings">
@@ -169,9 +171,38 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 <ol class="imagePool dragContainer imagePoolTop" id="imagePool">
                     
                 </ol>
-                <div id="main">
+                <div id="main" class="loadImgMarginYes loadPoolTop loadFileNameOff loadLabelOff loadCountOn loadImgSmall">
                     
                 </div>
+                <dialog id="tierBgDialog" class="tierBgColorMenu">
+                	<button onclick="tierBgDialog.close()" class="dialogCloseButton"><span class="icon-cross"></span></button>
+                    <div class="colorSelectWrap">
+                        <h1>Choose Tier Color</h1>
+                        <form class="colorSelect">
+                            <input type="radio" name="tierBG" id="red" value="red" onClick="tierBg()">
+                            <label for="red" class="redLabel"><span class="redBg"></span></label>
+                            
+                            <input type="radio" name="tierBG" id="orange" value="orange" onClick="tierBg()">
+                            <label for="orange"><span class="orangeBg"></span></label>
+                            
+                            <input type="radio" name="tierBG" id="yellow" value="yellow" onClick="tierBg()">
+                            <label for="yellow"><span class="yellowBg"></span></label>
+                            
+                            <input type="radio" name="tierBG" id="green" value="green" onClick="tierBg()">
+                            <label for="green"><span class="greenBg"></span></label>
+                            
+                            <input type="radio" name="tierBG" id="blue" value="blue" onClick="tierBg()">
+                            <label for="blue"><span class="blueBg"></span></label>
+                            
+                            <input type="radio" name="tierBG" id="purple" value="purple" onClick="tierBg()">
+                            <label for="purple"><span class="purpleBg"></span></label>
+                            
+                            <input type="radio" name="tierBG" id="pink" value="pink" onClick="tierBg()">
+                            <label for="pink"><span class="pinkBg"></span></label>
+                        </form>
+                        <button onclick="resetBg()" class="resetBgButton">Reset to Default Color</button>
+                    </div>
+                </dialog>
             </div>
         </div>
         <footer>
