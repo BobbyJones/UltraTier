@@ -23,6 +23,13 @@ Welcome, Ultra Tier Lists is a downloadable offline browser based tier list app.
   <li>Adjust image spacing on or off.</li>
 </ul>
 
+<h3>New in v1.1!</h3>
+<ul>
+  <li>- Ability to change the color of each tier manually.</li>
+  <li>Screenshot feature that allows you to share your tiers with others.</li>
+  <li>Settings selected will now be saved along with your tier. </li>
+</ul>
+
 
 <h2>Getting Started</h2>
 To start using Ultra Tier Lists simply download the Ultra Tier Lists zip file by going here: <a href="https://github.com/BobbyJones/UltraTier/releases">https://github.com/BobbyJones/UltraTier/releases</a>.  
