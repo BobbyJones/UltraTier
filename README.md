@@ -1,6 +1,6 @@
 
 <img width="400" height="131" alt="UltraTierLogoLargeBlk" src="https://github.com/user-attachments/assets/36a09cde-553c-4bd5-9254-a2bfe9067a67" />
-<h1>Ultra Tier Lists</h1>
+<h1>Ultra Tier Lists - The Free Offline Tier Maker App</h1>
 <p>
 Welcome, Ultra Tier Lists is a browser based <b>free offline tier maker</b> app.  Ultra Tier Lists allows you to load in any images you want that are stored on your computer and sort them into tiered rows. Ultra Tier Lists has some incredible features including image resizing, image numbering, image labeling, and more, check out the full feature list below!
 </p>
